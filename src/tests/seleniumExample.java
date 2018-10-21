@@ -1,7 +1,6 @@
 package tests;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.By.ByXPath;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -23,14 +22,29 @@ public class seleniumExample {
 			//x-path for search textbox
 			String searchBox_Xpath = "//input[contains(@title, 'Search')]";
 			String searchTerm = "Flight Booking";
+			String searchButton_Xpath = "//input[contains(@value, 'Google Search')]";
 			
 			// Operate on Google search box
 			driver.findElement(By.xpath(searchBox_Xpath)).clear();
 			driver.findElement(By.xpath(searchBox_Xpath)).click();
-			driver.findElement(By.xpath(searchBox_Xpath)).sendKeys("Search Flight");
+			driver.findElement(By.xpath(searchBox_Xpath)).sendKeys(searchTerm);
 			
-			Thread.sleep(2000); //static wait
+			// Search button X_path
+			driver.findElement(By.xpath(searchButton_Xpath)).click();
+			
+			// Capture the Page tile 
+			String actualPageTitle = driver.getTitle(); 
+			System.out.println("Title of the page is: " +  actualPageTitle);
 
+			Thread.sleep(1000); //static wait
+			
+			String expectedPageTitle = searchTerm + " - Google Search";
+
+			if (expectedPageTitle.equals(actualPageTitle)) {
+				System.out.println("PASS");
+			} else {
+				System.out.println("FAILED - Page title is not correct. The actual page title is - "+ actualPageTitle);
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
